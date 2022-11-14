@@ -1,0 +1,24 @@
+
+body{
+    background-color:#00001a;
+}
+a,p,h1,label,td,tr{
+    color:white;
+    text-decoration: none;
+}
+a:visited
+{
+    color : unset;
+}
+
+table,form{
+    background-color:#000033;
+    text-align: center;
+}
+td{
+    vertical-align:top;
+    border:2px white solid;
+}
+th{
+    text-align: center;
+}

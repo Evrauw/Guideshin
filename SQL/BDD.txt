@@ -1,0 +1,162 @@
+/*Création des tables */
+Create table Users  (
+    Id int AUTO_Increment,
+    Username Varchar(24),
+    Passwordcrypted varchar(255),
+    primary key (Id)
+);
+
+Create table Characters (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name Varchar(255),
+    PortraitPath Varchar(255),
+    Star int check (Star = 4 or Star = 5),
+    ElementId int not null,
+    WeaponType Varchar(255),
+    AscentionGemId int not null,
+    Foreign key (AscentionGemId) REFERENCES AscentionGem(Id),
+    LocalSpecialtyId int not null,
+    Foreign key (LocalSpecialtyId) references LocalSpecialty(Id),
+    MonsterMatId int not null,
+    Foreign key (MonsterMatId) references MonsterMat(Id),
+    BossMatId int not null,
+    Foreign key (BossMatId) references BossMat(Id),
+    TalentBookId int not null,
+    Foreign key (TalentBookId) references TalentBook(Id),
+    WeekBossMatId int not null,
+    Foreign key (WeekBossMatId) references WeekBossMat(Id)
+);
+    
+    
+
+Create table UserCharact (
+    IdUser int not null,
+    IdCharacter int not null,
+    Attack int not null check (Attack <= 13),
+    Elemental int not null check (Elemental <= 13),
+    Burst int not null check (Burst <= 13),
+    Levels int check (Levels <= 90),
+    Ascention int check (Ascention <= 5),
+    Primary key (IdUser,IdCharacter),
+    FOREIGN key (IdUser) REFERENCES Users(Id),
+    Foreign key (IdCharacter) REFERENCES Characters(ID)
+);
+
+Create table LocalSpecialty(
+	id int AUTO_Increment,
+	Primary Key (Id),
+	Name Varchar(255),
+	Region varchar(255),
+    Picpath Varchar(255)
+);
+
+
+CREATE table Element (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name Varchar(255),
+    Picpath Varchar(255)
+);
+
+Create table TalentBook (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name varchar(255),
+    Rarity int not null check (Rarity <= 3),
+    Picpath varchar(255) 
+);
+
+Create Table AscentionGem (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name varchar(255),
+    Rarity int not null check (Rarity <= 4),
+    Picpath varchar(255)
+);
+
+create table Monster (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name varchar(255),
+    Picpath varchar(255)
+);
+
+create table MonsterMat (
+    Id int AUTO_Increment,
+    Primary Key (Id),
+    Name varchar(255),
+    Rarity int not null check (Rarity <= 4),
+    Picpath varchar(255)
+);
+
+create table MonsterLoot (
+    IdMonster int not null,
+    IdMonsterMat int not null,
+    Primary key (IdMonster,IdMonsterMat),
+    FOREIGN key (IdMonster) REFERENCES Monster(Id),
+    Foreign key (IdMonsterMat) REFERENCES MonsterMat(Id)
+);
+
+create table Boss (
+    Id int AUTO_Increment,
+    Primary key (Id),
+    Name varchar(255),
+    Picpath varchar(255)
+);
+
+create table WeekBoss (
+    Id int AUTO_Increment,
+    PRIMARY key (Id),
+    Name varchar(255),
+    Trial varchar(255),
+    Picpath varchar(255)
+);
+
+create table BossMat (
+    Id int AUTO_Increment,
+    Primary key (Id),
+    Name varchar(255),
+    BossId int not null,
+    foreign key (BossId) references Boss(Id),
+    Picpath varchar(255)
+);
+
+create table WeekBossMat(
+    Id int AUTO_Increment,
+    Primary key (Id),
+    Name varchar(255),
+    BossId int not null,
+    foreign key (BossId) references WeekBoss(Id),
+    Picpath varchar(255)
+);
+
+/*Création des clefs étrangères */
+alter table Characters 
+add Foreign key (AscentionGemId) REFERENCES AscentionGem(Id),
+add Foreign key (LocalSpecialtyId) references LocalSpecialty(Id),
+add Foreign key (MonsterMatId) references MonsterMat(Id),
+add Foreign key (BossMatId) references BossMat(Id),
+add Foreign key (TalentBookId) references TalentBook(Id),
+add Foreign key (WeekBossMatId) references WeekBossMat(Id),
+add foreign key (ElementId references) element(Id);
+
+
+alter table usercharact
+add FOREIGN key (IdUser) REFERENCES Users(Id),
+add Foreign key (IdCharacter) REFERENCES Characters(ID);
+
+alter table Monsterloot
+add  FOREIGN key (IdMonster) REFERENCES Monster(Id),
+add Foreign key (IdMonsterMat) REFERENCES MonsterMat(Id);
+
+alter table weekboss
+add foreign key (Id) references Boss(Id);
+
+alter table weekbossmat
+add foreign key (BossId) references WeekBoss(Id);
+
+alter table bossmat
+add foreign key (BossId) references Boss(Id);
+
+    
